@@ -451,6 +451,7 @@ class RouteHelper {
           isPopular: Get.parameters['page'] == 'popular',
           isRecentlyViewed: Get.parameters['page'] == 'recently_viewed',
           isOrderAgain: Get.parameters['page'] == 'order_again',
+          isCatering: Get.parameters['page'] == 'catering',
         ),
     )),
     GetPage(name: wallet, page: () {

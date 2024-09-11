@@ -34,6 +34,7 @@ class DeliverySection extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isGuestLoggedIn = Get.find<AuthController>().isGuestLoggedIn();
     bool takeAway = (checkoutController.orderType == 'take_away');
+    bool catering = (checkoutController.orderType == 'catering');
     bool isDesktop = ResponsiveHelper.isDesktop(context);
     GlobalKey<CustomDropdownState> dropDownKey = GlobalKey<CustomDropdownState>();
     AddressModel addressModel;
@@ -44,7 +45,7 @@ class DeliverySection extends StatelessWidget {
         guestNameTextEditingController: guestNameTextEditingController,
         guestNumberTextEditingController: guestNumberTextEditingController,
         guestEmailController: guestEmailController, guestEmailNode: guestEmailNode,
-      ) : !takeAway ? Container(
+      ) : !takeAway && !catering ? Container(
         margin: EdgeInsets.symmetric(horizontal: isDesktop ? 0 : Dimensions.fontSizeDefault),
         padding: EdgeInsets.symmetric(horizontal: isDesktop ? Dimensions.paddingSizeLarge : Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall),
         decoration: BoxDecoration(

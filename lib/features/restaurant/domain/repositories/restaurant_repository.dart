@@ -103,14 +103,18 @@ class RestaurantRepository implements RestaurantRepositoryInterface {
   }
 
   @override
-  Future<List<Restaurant>?> getRestaurantList({String? type, bool isRecentlyViewed = false, bool isOrderAgain = false, bool isPopular = false, bool isLatest = false}) async {
+  Future<List<Restaurant>?> getRestaurantList({String? type, bool isRecentlyViewed = false, bool isOrderAgain = false, bool isPopular = false, bool isLatest = false,bool isCatering = false}) async {
     if(isRecentlyViewed) {
       return _getRecentlyViewedRestaurantList(type!);
     } else if(isOrderAgain) {
       return _getOrderAgainRestaurantList();
     } else if(isPopular) {
       return _getPopularRestaurantList(type!);
-    } else if(isLatest) {
+    }
+     else if(isCatering) {
+      return _getCateringRestaurantList(type!);
+    }
+     else if(isLatest) {
       return _getLatestRestaurantList(type!);
     }
     return null;
@@ -124,6 +128,16 @@ class RestaurantRepository implements RestaurantRepositoryInterface {
       response.body.forEach((restaurant) => latestRestaurantList!.add(Restaurant.fromJson(restaurant)));
     }
     return latestRestaurantList;
+  }
+
+    Future<List<Restaurant>?> _getCateringRestaurantList(String type) async {
+    List<Restaurant>? cateringRestaurantList;
+    Response response = await apiClient.getData('${AppConstants.cateringRestaurantUri}?type=$type');
+    if (response.statusCode == 200) {
+      cateringRestaurantList = [];
+      response.body.forEach((restaurant) => cateringRestaurantList!.add(Restaurant.fromJson(restaurant)));
+    }
+    return cateringRestaurantList;
   }
 
   Future<List<Restaurant>?> _getPopularRestaurantList(String type) async {

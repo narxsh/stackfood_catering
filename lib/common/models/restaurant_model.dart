@@ -50,6 +50,7 @@ class Restaurant {
   String? coverPhotoFullUrl;
   bool? delivery;
   bool? takeAway;
+  bool? catering;
   bool? scheduleOrder;
   double? avgRating;
   double? tax;
@@ -109,6 +110,7 @@ class Restaurant {
     this.coverPhotoFullUrl,
     this.delivery,
     this.takeAway,
+    this.catering,
     this.scheduleOrder,
     this.avgRating,
     this.tax,
@@ -169,6 +171,7 @@ class Restaurant {
     coverPhotoFullUrl = json['cover_photo_full_url'] ?? '';
     delivery = json['delivery'];
     takeAway = json['take_away'];
+    catering = json['catering'];
     scheduleOrder = json['schedule_order'];
     avgRating = json['avg_rating']?.toDouble();
     tax = json['tax']?.toDouble();
@@ -260,6 +263,7 @@ class Restaurant {
     data['cover_photo_full_url'] = coverPhotoFullUrl;
     data['delivery'] = delivery;
     data['take_away'] = takeAway;
+    data['catering'] = catering;
     data['schedule_order'] = scheduleOrder;
     data['avg_rating'] = avgRating;
     data['tax'] = tax;

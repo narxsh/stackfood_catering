@@ -3,6 +3,7 @@ import 'package:stackfood_multivendor/common/widgets/menu_drawer_widget.dart';
 import 'package:stackfood_multivendor/features/home/controllers/advertisement_controller.dart';
 import 'package:stackfood_multivendor/features/home/widgets/cashback_dialog_widget.dart';
 import 'package:stackfood_multivendor/features/home/widgets/cashback_logo_widget.dart';
+import 'package:stackfood_multivendor/features/home/widgets/catering_restaurants_view_widget.dart';
 import 'package:stackfood_multivendor/features/home/widgets/highlight_widget_view.dart';
 import 'package:stackfood_multivendor/features/home/widgets/refer_bottom_sheet_widget.dart';
 import 'package:stackfood_multivendor/features/product/controllers/campaign_controller.dart';
@@ -69,6 +70,7 @@ class HomeScreen extends StatefulWidget {
     }
     if(Get.find<SplashController>().configModel!.newRestaurant == 1) {
       Get.find<RestaurantController>().getLatestRestaurantList(reload, 'all', false);
+      Get.find<RestaurantController>().getCateringRestaurantList(reload, 'all', false);
     }
     if(Get.find<SplashController>().configModel!.mostReviewedFoods == 1) {
       Get.find<ReviewController>().getReviewedProductList(reload, 'all', false);
@@ -366,6 +368,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         _configModel!.mostReviewedFoods == 1 ?  const BestReviewItemViewWidget(isPopular: false) : const SizedBox(),
 
                         const CuisineViewWidget(),
+
+
+                        // catering widget added by naresh to show catering option 
+                        _configModel.newRestaurant == 1 ? const CateringRestaurantsViewWidget(isCatering: true) : const SizedBox(),
+                        // closed
 
                         _configModel.popularRestaurant == 1 ? const PopularRestaurantsViewWidget() : const SizedBox(),
 

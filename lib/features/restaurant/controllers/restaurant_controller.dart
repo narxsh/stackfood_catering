@@ -33,6 +33,9 @@ class RestaurantController extends GetxController implements GetxService {
   List<Restaurant>? _latestRestaurantList;
   List<Restaurant>? get latestRestaurantList => _latestRestaurantList;
 
+  List<Restaurant>? _cateringRestaurantList;
+  List<Restaurant>? get cateringRestaurantList => _cateringRestaurantList;
+
   List<Restaurant>? _recentlyViewedRestaurantList;
   List<Restaurant>? get recentlyViewedRestaurantList => _recentlyViewedRestaurantList;
 
@@ -113,6 +116,12 @@ class RestaurantController extends GetxController implements GetxService {
   int _nearestRestaurantIndex = -1;
   int get nearestRestaurantIndex => _nearestRestaurantIndex;
 
+  // added by naresh to get order type like delivery or catering
+  String orderType = 'delivery'; // Variable to track the selected button
+  void selectButton(String button) {
+    orderType = button;
+    update(); // Update the UI when the button is selected
+  }
 
   void setNearestRestaurantIndex(int index, {bool notify = true}) {
     _nearestRestaurantIndex = index;
@@ -230,6 +239,20 @@ class RestaurantController extends GetxController implements GetxService {
     }
     if(_latestRestaurantList == null || reload) {
       _latestRestaurantList = await restaurantServiceInterface.getLatestRestaurantList(type);
+      update();
+    }
+  }
+
+  Future<void> getCateringRestaurantList(bool reload, String type, bool notify) async {
+    _type = type;
+    if(reload){
+      _cateringRestaurantList = null;
+    }
+    if(notify) {
+      update();
+    }
+    if(_cateringRestaurantList == null || reload) {
+      _cateringRestaurantList = await restaurantServiceInterface.getCateringRestaurantList(type);
       update();
     }
   }

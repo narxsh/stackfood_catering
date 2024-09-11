@@ -13,7 +13,8 @@ class AllRestaurantScreen extends StatefulWidget {
   final bool isPopular;
   final bool isRecentlyViewed;
   final bool isOrderAgain;
-  const AllRestaurantScreen({super.key, required this.isPopular, required this.isRecentlyViewed, required this.isOrderAgain});
+  final bool isCatering;
+  const AllRestaurantScreen({super.key, required this.isPopular, required this.isRecentlyViewed, required this.isOrderAgain,required this.isCatering});
 
   @override
   State<AllRestaurantScreen> createState() => _AllRestaurantScreenState();
@@ -32,7 +33,11 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
       Get.find<RestaurantController>().getRecentlyViewedRestaurantList(false, 'all', false);
     } else if(widget.isOrderAgain) {
       Get.find<RestaurantController>().getOrderAgainRestaurantList(false);
-    } else{
+    }
+    else if(widget.isCatering) {
+      Get.find<RestaurantController>().getCateringRestaurantList(false, 'all', false);
+    }
+     else{
       Get.find<RestaurantController>().getLatestRestaurantList(false, 'all', false);
     }
   }
@@ -46,6 +51,7 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
           appBar: CustomAppBarWidget(
             title: widget.isPopular ? 'popular_restaurants'.tr : widget.isRecentlyViewed
                 ? 'recently_viewed_restaurants'.tr : widget.isOrderAgain ? 'order_again'.tr
+                : widget.isCatering ? "Catering"
                 : '${'new_on'.tr} ${AppConstants.appName}',
             type: restController.type,
             onVegFilterTap: widget.isOrderAgain ? null : (String type) {
@@ -71,7 +77,11 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
                 Get.find<RestaurantController>().getRecentlyViewedRestaurantList(true, Get.find<RestaurantController>().type, false);
               } else if(widget.isOrderAgain) {
                 Get.find<RestaurantController>().getOrderAgainRestaurantList(false);
-              } else{
+              }
+              else if(widget.isCatering) {
+                Get.find<RestaurantController>().getCateringRestaurantList(true, Get.find<RestaurantController>().type, false);
+              }
+               else{
                 await Get.find<RestaurantController>().getLatestRestaurantList(true, Get.find<RestaurantController>().type, false);
               }
             },
@@ -86,7 +96,7 @@ class _AllRestaurantScreenState extends State<AllRestaurantScreen> {
                       isRestaurant: true, products: null, noDataText: 'no_restaurant_available'.tr,
                       restaurants: widget.isPopular ? restController.popularRestaurantList : widget.isRecentlyViewed
                           ? restController.recentlyViewedRestaurantList : widget.isOrderAgain
-                          ? restController.orderAgainRestaurantList : restController.latestRestaurantList,
+                          ? restController.orderAgainRestaurantList : widget.isCatering ? restController.cateringRestaurantList : restController.latestRestaurantList,
                     ),
                   )),
                 ],

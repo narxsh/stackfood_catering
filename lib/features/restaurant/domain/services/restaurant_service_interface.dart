@@ -16,6 +16,7 @@ abstract class RestaurantServiceInterface {
   Future<List<Restaurant>?> getRecentlyViewedRestaurantList(String type);
   Future<List<Restaurant>?> getPopularRestaurantList(String type);
   Future<List<Restaurant>?> getLatestRestaurantList(String type);
+  Future<List<Restaurant>?> getCateringRestaurantList(String type);
   Future<RecommendedProductModel?> getRestaurantRecommendedItemList(int? restaurantId);
   int setTopRated(int rated);
   int setDiscounted(int discounted);

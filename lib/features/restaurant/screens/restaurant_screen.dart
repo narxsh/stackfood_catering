@@ -1,3 +1,4 @@
+import 'package:stackfood_multivendor/common/widgets/catering_view_widget.dart';
 import 'package:stackfood_multivendor/features/cart/controllers/cart_controller.dart';
 import 'package:stackfood_multivendor/features/coupon/controllers/coupon_controller.dart';
 import 'package:stackfood_multivendor/features/home/widgets/arrow_icon_button_widget.dart';
@@ -212,9 +213,76 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
                       ]),
                     ) : const SizedBox(),
+
+                  Center(
+                  child: GetBuilder<RestaurantController>(
+                    builder: (controller) {
+                      return ToggleButtons(
+                        isSelected: [
+                          controller.orderType == 'catering',
+                          controller.orderType == 'delivery'
+                        ],
+                        onPressed: (index) {
+                          if (index == 0) {
+                            controller.selectButton('catering');
+                            Get.find<RestaurantController>().getRestaurantProductList(
+                              widget.restaurant!.id ??
+                                  Get.find<RestaurantController>().restaurant!.id!,
+                              1,
+                              'catering',
+                              true,
+                            );
+                          } else {
+                            controller.selectButton('delivery');
+                            Get.find<RestaurantController>().getRestaurantProductList(
+                              widget.restaurant!.id ??
+                                  Get.find<RestaurantController>().restaurant!.id!,
+                              1,
+                              'all',
+                              true,
+                            );
+                          }
+                        },
+                        fillColor: Colors.blue, // Background color when selected
+                        borderRadius: BorderRadius.circular(8),
+                        borderColor: Colors.grey, // Border color when unselected
+                        selectedBorderColor: Colors.blue,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              'Catering',
+                              style: TextStyle(
+                                color: controller.orderType == 'catering'
+                                    ? Colors.white
+                                    : Colors.black, // Change text color based on selection
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Text(
+                              'Delivery',
+                              style: TextStyle(
+                                color: controller.orderType == 'delivery'
+                                    ? Colors.white
+                                    : Colors.black, // Change text color based on selection
+                              ),
+                            ),
+                          ),
+                        ], // Border color when selected
+                      );
+                    },
+                  ),
+                ),
+
+                    
+                    
+                      
                   ]),
                 ))),
-
+              
+              restController.orderType != "catering" ?
                 (restController.categoryList!.isNotEmpty) ? SliverPersistentHeader(
                   pinned: true,
                   delegate: SliverDelegate(height: 98, child: Center(child: Container(
@@ -342,7 +410,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                     ]),
                   ))),
-                ) : const SliverToBoxAdapter(child: SizedBox()),
+                ) : const SliverToBoxAdapter(child: SizedBox()) : const SliverToBoxAdapter(child: SizedBox()),
 
                 SliverToBoxAdapter(child: FooterViewWidget(
                   child: Center(child: Container(
@@ -363,7 +431,20 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       },
                       totalSize: restController.isSearching ? restController.restaurantSearchProductModel?.totalSize : restController.restaurantProducts != null ? restController.foodPageSize : null,
                       offset: restController.isSearching ? restController.restaurantSearchProductModel?.offset : restController.restaurantProducts != null ? restController.foodPageOffset : null,
-                      productView: ProductViewWidget(
+                      productView: 
+
+                      restController.orderType == "delivery" ?
+                      ProductViewWidget(
+                        isRestaurant: false,
+                        restaurants: null,
+                        products: restController.isSearching ? restController.restaurantSearchProductModel?.products : restController.categoryList!.isNotEmpty ? restController.restaurantProducts : null,
+                        inRestaurantPage: true,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingSizeSmall,
+                          vertical: Dimensions.paddingSizeLarge,
+                        ),
+                      ) : 
+                      CateringViewWidget(
                         isRestaurant: false,
                         restaurants: null,
                         products: restController.isSearching ? restController.restaurantSearchProductModel?.products : restController.categoryList!.isNotEmpty ? restController.restaurantProducts : null,

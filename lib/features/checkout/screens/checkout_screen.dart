@@ -192,7 +192,12 @@ class CheckoutScreenState extends State<CheckoutScreen> {
                 charge = _getDeliveryCharge(restaurant: checkoutController.restaurant, checkoutController: checkoutController, returnDeliveryCharge: false)!;
                 maxCodOrderAmount = _getDeliveryCharge(restaurant: checkoutController.restaurant, checkoutController: checkoutController, returnMaxCodOrderAmount: true);
 
-                if(checkoutController.orderType != 'take_away') {
+                // if(checkoutController.orderType != 'take_away') {
+                //   _deliveryChargeForView = (checkoutController.orderType == 'delivery' ? checkoutController.restaurant!.freeDelivery! : true) ? 'free'.tr
+                //       : deliveryCharge != -1 ? PriceConverter.convertPrice(deliveryCharge) : 'calculating'.tr;
+                // }
+
+                if(checkoutController.orderType == 'take_away' || checkoutController.orderType == 'catering') {
                   _deliveryChargeForView = (checkoutController.orderType == 'delivery' ? checkoutController.restaurant!.freeDelivery! : true) ? 'free'.tr
                       : deliveryCharge != -1 ? PriceConverter.convertPrice(deliveryCharge) : 'calculating'.tr;
                 }
@@ -222,7 +227,13 @@ class CheckoutScreenState extends State<CheckoutScreen> {
 
                 subscriptionQty = _getSubscriptionQty(checkoutController: checkoutController, restaurantSubscriptionActive: restaurantSubscriptionActive);
 
-                if (checkoutController.orderType == 'take_away' || checkoutController.restaurant!.freeDelivery!
+                // if (checkoutController.orderType == 'take_away' || checkoutController.restaurant!.freeDelivery!
+                //     || (Get.find<SplashController>().configModel!.freeDeliveryOver != null && orderAmount
+                //         >= Get.find<SplashController>().configModel!.freeDeliveryOver!) || couponController.freeDelivery) {
+                //   deliveryCharge = 0;
+                // }
+
+                if (checkoutController.orderType == 'take_away' || checkoutController.orderType == 'catering' || checkoutController.restaurant!.freeDelivery!
                     || (Get.find<SplashController>().configModel!.freeDeliveryOver != null && orderAmount
                         >= Get.find<SplashController>().configModel!.freeDeliveryOver!) || couponController.freeDelivery) {
                   deliveryCharge = 0;
